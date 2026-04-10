@@ -34,18 +34,26 @@ def stagedGame():
     
     for file in allFiles:
         clear_screen()
-        filePars = Parameter(file[:(file.find("."))], file[(file.find(".")):], creationDate=0, modificationDate=0)
+        filePars = Parameter(file[:(file.find("."))], file[(file.find(".")):])
         if file in corrupt_files:
 
             detection = input(f"""
                EXPECTED FILE PROPERTIES:   |    DOWNLOADED FILE PROPERTIES:
 File Name: {filePars.name:^32}|{filePars.corruptedName():^34}
-                                |
-                                |
-                                |
+File Type: {filePars.type:^32}|{filePars.corruptedType():^34}
+Creation Date: {filePars.creation:^28}|    {filePars.corruptedCreation():^30}
+|
                               
 """)
-    
+        if file in valid_files:
+            detection = input(f"""
+               EXPECTED FILE PROPERTIES:   |    DOWNLOADED FILE PROPERTIES:
+File Name: {filePars.name:^32}|{filePars.name:^34}
+File Type: {filePars.type:^32}|{filePars.type:^34}
+Creation Date: {filePars.creation:^27}|{filePars.creation:^30}
+|
+                              
+""")
 
 
 
