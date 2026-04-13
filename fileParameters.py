@@ -12,8 +12,12 @@ class Parameter:
         self.type = filetype
         self.creationDay = random.randint(1, 30)
         self.creationMonth = random.randint(1, 12)
-        self.creationYear = random.randint(2000, 2026)
+        self.creationYear = random.randint(2000, 2025)
+        self.modificationDay = random.randint(1, 30)
+        self.modificationMonth = random.randint(1, 12)
+        self.modificationYear = random.randint(self.creationYear, 2026)
         self.creation = str(self.creationDay) + "." + str(self.creationMonth) + "." + str(self.creationYear)
+        self.modification = str(self.modificationDay) + "." + str(self.modificationMonth) + "." + str(self.modificationYear)
     
     def corruptedName(self):
         for letter in alphabet_list:
@@ -47,9 +51,26 @@ class Parameter:
         return self.creation
 
     def corruptedModification(self):
-        pass
+        one = [self.modificationDay, self.modificationMonth, self.modificationYear]
+        two = random.choice(one)
+        if two == self.modificationDay:
+            self.modificationDay = random.randint(1, 30)
+        if two == self.modificationMonth:
+            self.modificationMonth = random.randint(1, 12)
+        if two == self.modificationYear:
+            self.modificationYear = random.randint(self.creationYear+1, 2026)
+            
+            
 
+        self.modification = str(self.modificationDay) + "." + str(self.modificationMonth) + "." + str(self.modificationYear)
+        return self.modification
         
+
+    
+    def corruptChoice(self):
+        corruption = ["corruptedName", "corruptedType", "corruptedCreation", "corruptedModification"]
+        corruptionChoice = random.choice(corruption)
+        return corruptionChoice
 
         
 

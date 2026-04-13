@@ -8,11 +8,12 @@ from ui import UI, doing
 
 
 
-def game():
+def gameF():
     usefulFeatures.clear_screen()
     name = input("Enter your name: ")
     player = Player(name)
     intro(player.name)
+    
 
     while True:
         usefulFeatures.clear_screen()
@@ -27,10 +28,11 @@ Type:
 >>>""")
         if do == "exit":
             break
-        doing(do)
+        doing(do, player)
         
 
 
 
 if __name__ == "__main__":
-    game()
+    gameF()
+
