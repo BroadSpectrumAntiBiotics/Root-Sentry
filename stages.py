@@ -37,8 +37,8 @@ def stagedGame(player):
     files = allFiles.copy()
     counter = 0
     clear_screen()
-    type_text(f"{f"{" "*8}{current_stage.numberofcorrupt} number of files are corrupt among the next {len(current_stage.stage)} files.":^100}", 0.01)
-    input(f"{f"{" "*8}Press enter to continue, {player.name}.":^100}") 
+    type_text(f"{f"{" "*8}{current_stage.numberofcorrupt} number of files are corrupt among the next {len(current_stage.stage)} files.":^120}", 0.01)
+    input(f"{f"{" "*8}Press enter to continue, {player.name}.":^120}") 
     
     for file in files:
         clear_screen()
@@ -50,32 +50,43 @@ def stagedGame(player):
         if file in corrupt_files:
             filePars.corruptChoice()
 
-        detection = input(f"""
-        {"For assigning a file as valid, type 'valid'. For a corrupted file, type 'corrupted'.":^100}
-        {f"To use a script you downloaded, type its full name. You currently have {player.scripts} installed.":^100}
-        {f"{len(files)-counter} files left.":^100}
+        while True:
+            try:
+                clear_screen()
+                detection = input(f"""
+                {"For assigning a file as valid, type 'valid'. For a corrupted file, type 'corrupted'.":^100}
+                {f"To use a script you downloaded, type its full name. You currently have {player.scripts} installed.":^100}
+                {f"{len(files)-counter} files left.":^100}
 
-            EXPECTED FILE PROPERTIES:                           |DOWNLOADED FILE PROPERTIES:
-            =================================                   |=================================
-            File Name: {filename:<41}|File Name: {filePars.name:<30}
-            File Type: {filetype:<41}|File Type: {filePars.type:<30}
-            Creation Date: {filecreation:<37}|Creation Date: {filePars.creation:<20}
-            Last Modified: {filemodification:<37}|Last Modified: {filePars.modification:<20}
+                    EXPECTED FILE PROPERTIES:                           |DOWNLOADED FILE PROPERTIES:
+                    =================================                   |=================================
+                    File Name: {filename:<41}|File Name: {filePars.name:<30}
+                    File Type: {filetype:<41}|File Type: {filePars.type:<30}
+                    Creation Date: {filecreation:<37}|Creation Date: {filePars.creation:<20}
+                    Last Modified: {filemodification:<37}|Last Modified: {filePars.modification:<20}
 >>>""")
-        if ((detection == "valid") and (file in valid_files)) or ((detection == "corrupted") and (file in corrupt_files)):
-            player.budget_control(int(virusCreator.virus.difficulty * random.randint(5, 10)))
-        else: #Add budget control for specific types of viruses
-            if detection in player.scripts:
-                if detection == "autoCheck.exe":
-                    scripts.autoCheck(file, valid_files, corrupt_files)
-                    player.scripts.pop(player.scripts.index(detection))
-                    time.sleep(2)
-            else:
-                player.budget_control(-(int(virusCreator.virus.difficulty * random.randint(1, 5))))
-                player.hp_control(-(int(virusCreator.virus.difficulty * random.randint(1, 5))))
-        if detection not in scripts.script_names:
-            type_text(f"\nFile marked as {detection}.")
-        counter += 1
+                if ((detection == "valid") and (file in valid_files)) or ((detection == "corrupted") and (file in corrupt_files)):
+                    player.budget_control(int(virusCreator.virus.difficulty * random.randint(5, 10)))
+                else: #Add budget control for specific types of viruses
+                    if detection in player.scripts:
+                        if detection == "autoCheck.exe":
+                            scripts.autoCheck(file, valid_files, corrupt_files)
+                            player.scripts.pop(player.scripts.index(detection))
+                            counter += 1
+                            time.sleep(2)
+                    elif (detection == "valid") or (detection == "corrupted"):
+                        player.budget_control(-(int(virusCreator.virus.difficulty * random.randint(1, 5))))
+                        player.hp_control(-(int(virusCreator.virus.difficulty * random.randint(1, 5))))
+                    else:
+                        raise KeyError()
+                if detection not in scripts.script_names:
+                    type_text(f"\nFile marked as {detection}.")
+                    counter += 1
+                break
+            except:
+                type_text("Wrong command. Please try again.")
+                time.sleep(1)
+        
     if virusCreator.virus.difficulty < 5:
         virusCreator.virus.difficulty += 1
 

@@ -1,3 +1,5 @@
+import time
+
 from stages import stagedGame
 from shop import shopping
 from information import info
@@ -18,4 +20,5 @@ def doing(do, player, budget):
     if do == "info":
         return info()
     else:
-        print("Wrong command type.")
+        print("Wrong command type. Please try again.")
+        time.sleep(1)

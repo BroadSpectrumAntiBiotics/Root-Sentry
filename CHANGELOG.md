@@ -10,3 +10,6 @@ Made the game functioning and ready for expansions.
 14.04.2026 ==
 Added items that you can purchase. And changed budget, system integrity functionings.
 Plus, simplified the code and made it much professional.
+
+15.04.2026 ==
+Fixed inputs, uncommented the intro function.

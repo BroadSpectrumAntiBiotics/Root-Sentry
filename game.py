@@ -12,7 +12,7 @@ def gameF():
     usefulFeatures.clear_screen()
     name = input("Enter your name: ")
     player = Player(name)
-    #intro(player.name)
+    intro(player.name)
     
 
     while True:
