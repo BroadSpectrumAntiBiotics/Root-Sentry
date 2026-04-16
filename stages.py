@@ -67,13 +67,24 @@ def stagedGame(player):
 >>>""")
                 if ((detection == "valid") and (file in valid_files)) or ((detection == "corrupted") and (file in corrupt_files)):
                     player.budget_control(int(virusCreator.virus.difficulty * random.randint(5, 10)))
+                    player.update += random.randint(5,10)
                 else: #Add budget control for specific types of viruses
                     if detection in player.scripts:
                         if detection == "autoCheck.exe":
                             scripts.autoCheck(file, valid_files, corrupt_files)
+                        if detection == "average_av.exe":
+                            if player.hp == 100:
+                                type_text("You already have 100 system integrity!")
+                                time.sleep(2)
+                                continue
+                            scripts.average_av(player)
                             player.scripts.pop(player.scripts.index(detection))
-                            counter += 1
-                            time.sleep(2)
+                            continue
+                        if detection == "advanced_av.exe":
+                            pass
+                        player.scripts.pop(player.scripts.index(detection))
+                        counter += 1
+                        time.sleep(2)
                     elif (detection == "valid") or (detection == "corrupted"):
                         player.budget_control(-(int(virusCreator.virus.difficulty * random.randint(1, 5))))
                         player.hp_control(-(int(virusCreator.virus.difficulty * random.randint(1, 5))))

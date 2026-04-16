@@ -4,11 +4,12 @@ from stages import stagedGame
 from shop import shopping
 from information import info
 
-def UI(name, hp, scripts, budget):
+def UI(name, hp, scripts, budget, update):
     print("=" * 30)
     print(f"User: {name}")
     print(f"System Integrity: {hp}\nBudget: {budget}")
     print(f"Scripts: {scripts}")
+    print(f"Update level: {update}")
     print("=" * 30)
 
 

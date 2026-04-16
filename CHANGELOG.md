@@ -13,3 +13,6 @@ Plus, simplified the code and made it much professional.
 
 15.04.2026 ==
 Fixed inputs, uncommented the intro function.
+
+16.04.2026 ==
+Added average antivirus script and an ending (basic).

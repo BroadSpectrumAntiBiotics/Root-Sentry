@@ -4,7 +4,7 @@ from stages import Stages
 import usefulFeatures
 from introduction import intro
 from ui import UI, doing
-
+from end import ending
 
 
 
@@ -17,7 +17,10 @@ def gameF():
 
     while True:
         usefulFeatures.clear_screen()
-        UI(player.name, player.hp, player.scripts, player.budget)
+        if player.update > 100:
+            ending(player)
+            break
+        UI(player.name, player.hp, player.scripts, player.budget, player.update)
         do = input("""
 Type:
                                 "continue" for resuming update,

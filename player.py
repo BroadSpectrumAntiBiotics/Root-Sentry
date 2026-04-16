@@ -6,6 +6,7 @@ class Player:
         self.hp = 100
         self.scripts = []
         self.budget = 0
+        self.update = 0
     
     def budget_control(self, addition):
         self.budget += addition
