@@ -5,23 +5,32 @@ import usefulFeatures
 from introduction import intro
 from ui import UI, doing
 from end import ending
+from dataMan import data
+import json
+
 
 
 
 def gameF():
+    with open("data.json", "r") as file:
+        data = json.load(file)
     usefulFeatures.clear_screen()
-    name = input("Enter your name: ")
-    usefulFeatures.clear_screen()
-    player = Player(name)
-    intro(player.name)
+    if data["name"] == "":
+        name = input("Enter your name: ")
+        data["name"] = name
+        usefulFeatures.clear_screen()
+        intro(name)
+    player = Player(data["name"], data["hp"], data["scripts"], data["budget"])
     
-
     while True:
         usefulFeatures.clear_screen()
         if player.update > 100:
             ending(player)
             break
         UI(player.name, player.hp, player.scripts, player.budget, player.update)
+        data["budget"] = player.budget
+        data["scripts"] = player.scripts
+        data["hp"] = player.hp
         do = input("""
 Type:
                    
@@ -32,6 +41,8 @@ Type:
                    
 >>>""")
         if do == "exit":
+            with open("data.json", "w") as file:
+                json.dump(data, file)
             break
         doing(do, player, player.budget)
         
