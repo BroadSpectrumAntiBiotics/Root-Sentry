@@ -4,7 +4,7 @@ from stages import Stages
 import usefulFeatures
 from introduction import intro
 from ui import UI, doing
-from end import ending
+from end import ending, bad_ending
 from dataMan import data
 import json
 
@@ -26,6 +26,9 @@ def gameF():
         usefulFeatures.clear_screen()
         if player.update > 100:
             ending(player)
+            break
+        if player.hp <= 0:
+            bad_ending()
             break
         UI(player.name, player.hp, player.scripts, player.budget, player.update)
         data["budget"] = player.budget
