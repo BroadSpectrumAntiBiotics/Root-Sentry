@@ -8,7 +8,7 @@ def UI(name, hp, scripts, budget, update):
     print("=" * 30)
     print(f"User: {name}")
     print(f"System Integrity: {hp}\nBudget: {budget}")
-    print(f"Scripts: {scripts}")
+    print(f"Scripts: {f"{scripts.count("autoCheck.exe")} 'autoCheck.exe'"}, {f"{scripts.count("average_av.exe")} 'average_av.exe'"}, {f"{scripts.count("advanced_av.exe")} 'advanced_av.exe'"}")
     print("Update level: " + (update//10)*"⬤" + (10-(update//10))*"◯")
     print("=" * 30)
 

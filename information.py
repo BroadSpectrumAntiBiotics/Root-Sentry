@@ -34,11 +34,11 @@ def info():
             if about == 'commands':
                 clear_screen()
                 type_text(commands_list, 0.01)
-                input('Press enter to continue.')
+                input('Press enter to exit.')
             if about == 'resources':
                 clear_screen()
                 type_text(resources_list, 0.01)
-                input('Press enter to continue.')
+                input('Press enter to exit.')
             if about == 'exit':
                 break
         except:

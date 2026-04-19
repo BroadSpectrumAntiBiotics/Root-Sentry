@@ -2,6 +2,7 @@
 from fileNames import file_names
 import random
 import string
+import hashlib
 
 alphabet_list = list(string.ascii_lowercase)
 
@@ -18,9 +19,11 @@ class Parameter:
         self.modificationYear = random.randint(self.creationYear, 2026)
         self.creation = str(self.creationDay) + "." + str(self.creationMonth) + "." + str(self.creationYear)
         self.modification = str(self.modificationDay) + "." + str(self.modificationMonth) + "." + str(self.modificationYear)
+        self.hash = (hashlib.sha256(filename.encode('utf-8')).hexdigest())[:8]
     
     def corruptedName(self):
         for letter in alphabet_list:
+            letter = random.choice(alphabet_list)
             if letter not in self.name: 
                 corruptedLetter = letter
                 break
@@ -67,10 +70,15 @@ class Parameter:
         self.modification = str(self.modificationDay) + "." + str(self.modificationMonth) + "." + str(self.modificationYear)
         return self.modification
         
-
+    def corruptedHash(self):
+        self.hash = hashlib.sha256(random.choice(alphabet_list).encode('utf-8')).hexdigest()[:8]
+        
+        return self.hash
     
-    def corruptChoice(self):
+    def corruptChoice(self, difficulty):
         corruption = ["name", "type", "creation", "modification"]
+        if difficulty > 3:
+            corruption.append("hash")
         corruptionChoice = random.choice(corruption)
         if corruptionChoice == "name":
             return self.corruptedName()
@@ -80,6 +88,8 @@ class Parameter:
             return self.corruptedCreation()
         if corruptionChoice == "modification":
             return self.corruptedModification()
+        if corruptionChoice == "hash":
+            return self.corruptedHash()
 
 
     

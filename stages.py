@@ -1,5 +1,5 @@
 from fileNames import file_names
-from perks import hinter
+from perks import currentfile_perk, hinter
 import scripts
 import virusCreator
 from usefulFeatures import type_text, clear_screen
@@ -30,6 +30,12 @@ class Stages:
         
         return self.stage
 
+def hash_properties(filehash, difficulty, filePars):
+    if difficulty > 4:
+        return f"Hash: {filehash:<46}|Hash: {filePars.hash:<20}"
+    else:
+        return ""
+
 def stagedGame(player):
     current_stage = Stages()
     corrupt_files = current_stage.corruptfilesStager()
@@ -38,6 +44,12 @@ def stagedGame(player):
     files = allFiles.copy()
     counter = 0 
     
+    if virusCreator.virus.difficulty == 6:
+        clear_screen()
+        type_text(f"{"\033[33mNew perk unlocked! With a small chance, you will be shown whether a file is corrupted or not.\033[0m":^135}", 0.02)
+        input(f"{"Press enter to continue.":^125}")
+        clear_screen()
+
     if virusCreator.virus.difficulty > 2:
         if virusCreator.virus.difficulty == 3:
             clear_screen()
@@ -45,7 +57,10 @@ def stagedGame(player):
             input(f"{"Press enter to continue.":^125}")
             clear_screen()
         hinter(player, current_stage)
-
+    
+    
+    
+        
     for file in files:
         clear_screen()
         filePars = Parameter(file[:(file.find("."))], file[(file.find(".")):])
@@ -53,8 +68,15 @@ def stagedGame(player):
         filetype = filePars.type
         filecreation = filePars.creation
         filemodification = filePars.modification
+        filehash = filePars.hash
         if file in corrupt_files:
-            filePars.corruptChoice()
+            filePars.corruptChoice(virusCreator.virus.difficulty)
+            if virusCreator.virus.difficulty > 5:
+                chance = random.randint(1, 100)
+                if chance > 80: #For every file, there's a 10 percent chance that you'll get notified about its corruption.
+                    currentfile_perk()
+
+
 
         while True:
             try:
@@ -70,14 +92,14 @@ def stagedGame(player):
                     File Name: {filename:<41}|File Name: {filePars.name:<30}
                     File Type: {filetype:<41}|File Type: {filePars.type:<30}
                     Creation Date: {filecreation:<37}|Creation Date: {filePars.creation:<20}
-                    Last Modified: {filemodification:<37}|Last Modified: {filePars.modification:<20} \033[0m
-
+                    Last Modified: {filemodification:<37}|Last Modified: {filePars.modification:<20} 
+                    {hash_properties(filehash, virusCreator.virus.difficulty, filePars)}                          \033[0m
             {f"{len(files)-counter} files left.":^100}
 
 >>>""")
                 if ((detection == "valid") and (file in valid_files)) or ((detection == "corrupted") and (file in corrupt_files)):
-                    player.budget_control(int(virusCreator.virus.difficulty * random.randint(5, 10)))
-                    player.update += random.randint(5,10)
+                    player.budget_control(int(virusCreator.virus.difficulty * random.randint(1, 5)))
+                    player.update += random.randint(3, 5)
                 else:
                     if detection in player.scripts:
                         if detection == "autoCheck.exe":
@@ -85,7 +107,7 @@ def stagedGame(player):
                         if detection == "average_av.exe":
                             if player.hp == 100:
                                 type_text("You already have 100 system integrity!")
-                                time.sleep(2)
+                                time.sleep(1.5)
                                 continue
                             scripts.average_av(player)
                             player.scripts.pop(player.scripts.index(detection))
@@ -94,7 +116,7 @@ def stagedGame(player):
                             pass
                         player.scripts.pop(player.scripts.index(detection))
                         counter += 1
-                        time.sleep(2)
+                        time.sleep(1.5)
                     elif (detection == "valid") or (detection == "corrupted"):
                         player.budget_control(-(int(virusCreator.virus.difficulty * random.randint(1, 5))))
                         player.hp_control(-(int(virusCreator.virus.difficulty * random.randint(1, 5))))

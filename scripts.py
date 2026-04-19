@@ -2,7 +2,7 @@ from usefulFeatures import clear_screen, type_text
 import random
 
 script_names = ["autoCheck.exe", "average_av.exe", "advanced_av.exe"]
-script_prices = [20, 30, 50]
+script_prices = [10, 20, 50]
 
 script_list = f"""
 {"Script name":^20}|{"Price":^10}
