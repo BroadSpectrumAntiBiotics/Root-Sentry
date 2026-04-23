@@ -21,3 +21,5 @@ Added average antivirus script and an ending (basic). And added colors.
 Added a saving system. Added perks.
 
 19.04.2026 == Added "hash" property for files after a certain stage. Added a new perk.
+
+23.04.2026 == Made UI better. Planned the game structure again.
